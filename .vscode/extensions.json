@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "usernamehw.errorlens",
+    "dbaeumer.vscode-eslint",
+    "waderyan.gitblame",
+    "mhutchie.git-graph",
+    "github.copilot",
+    "donjayamanne.githistory",
+    "pkief.material-icon-theme",
+    "esbenp.prettier-vscode",
+    "ahgood.shift-shift",
+    "oderwat.indent-rainbow",
+    "spmeesseman.vscode-taskexplorer"
+  ]
+}
