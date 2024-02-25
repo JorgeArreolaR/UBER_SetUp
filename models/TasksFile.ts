@@ -126,13 +126,10 @@ class TasksFile {
 
   generateFile() {
     const tasks = this.getTasks()
+
     const spreadsheet = this.getOrCreateSpreadsheet()
     const sheet = this.getSheet()
     const analyst = this.getAnalyst()
-
-    // DriveApp.getFileById(spreadsheet.getId()).setOwner(
-    //   'schagoyavilla@gmail.com',
-    // )
 
     if (!analyst)
       throw new Error(
@@ -186,7 +183,7 @@ class TasksFile {
         rowsData.length,
         photoNamesHeaders.length,
       )
-      .setFormula(`=$S$1&"+"&$T$1&"+"&$U$1&"_"&$J2&"+"&K$1`)
+      .setFormula(`=$S$1&"+"&$T$1&"+"&$J2&"+"&K$1`)
 
     sheet.setConditionalFormatRules([])
 
@@ -233,17 +230,20 @@ class TasksFile {
           .build(),
       )
       sheet.setConditionalFormatRules(rules)
+
+      sheet.setColumnWidth(photoPairStartColumn, 22)
+      sheet.setColumnWidth(photoPairStartColumn + 1, 86)
     }
 
-    sheet
-      .getRange(
-        1,
-        photoNamesColumnOffset,
-        sheet.getLastRow(),
-        this.predefinedPhotosNamesCount,
-      )
-      .setHorizontalAlignment('center')
-      .setVerticalAlignment('middle')
+    // sheet
+    //   .getRange(
+    //     1,
+    //     photoNamesColumnOffset,
+    //     sheet.getLastRow(),
+    //     this.predefinedPhotosNamesCount,
+    //   )
+    //   .setHorizontalAlignment('center')
+    //   .setVerticalAlignment('middle')
 
     const metadata = [
       analyst.getPrefix(),

@@ -41,9 +41,9 @@ class GoogleSheet<CellMap extends SheetCellMap> {
     return new GoogleSheet(sheet, options)
   }
 
-  static getOrCreateSheet<Headers extends SheetCellMap>(
-    options: SheetOptions<Headers>,
-  ): GoogleSheet<Headers> {
+  static getOrCreateSheet<CellMap extends SheetCellMap>(
+    options: SheetOptions<CellMap>,
+  ): GoogleSheet<CellMap> {
     const ss = options.spreadshet
     const name = options.name
     const sheet = ss.getSheetByName(name)
@@ -137,6 +137,23 @@ class GoogleSheet<CellMap extends SheetCellMap> {
     return this
   }
 
+  getData<T>(mapper: (row: CellMap) => T): T[] {
+    const data = this.sheet
+      .getDataRange()
+      .getValues()
+      .slice(1)
+      .map((row) => {
+        const rowData: CellMap = {} as never
+        row.forEach((cell, index) => {
+          // @ts-expect-error index is a number
+          rowData[this.headers[index]] = cell
+        })
+        return rowData
+      })
+      .map(mapper)
+    return data
+  }
+
   private getColumnDataRange(column: number) {
     const numRows = this.sheet.getLastRow() - 1
     if (numRows < 1) return null
@@ -159,5 +176,33 @@ class GoogleSheet<CellMap extends SheetCellMap> {
         range.insertCheckboxes()
       }
     }
+  }
+}
+
+type SheetOptionsFactory<CellMap extends SheetCellMap> = {
+  columns: CellMap
+  postWriteHook?: HookFunction
+  postCreateHook?: HookFunction
+}
+class GoogleSheetFactory<CellMap extends SheetCellMap> {
+  constructor(
+    private options: SheetOptionsFactory<CellMap>,
+  ) {}
+
+  init(otps: {
+    spreadshet: GoogleAppsScript.Spreadsheet.Spreadsheet
+    name: string
+  }) {
+    const sheet = GoogleSheet.getOrCreateSheet({
+      spreadshet: otps.spreadshet,
+      name: otps.name,
+      columns: this.options.columns,
+      postWriteHook: this.options.postWriteHook,
+      postCreateHook: this.options.postCreateHook,
+    })
+
+    sheet.writeHeaders()
+    sheet.applyColumnTypeFormat()
+    return sheet
   }
 }

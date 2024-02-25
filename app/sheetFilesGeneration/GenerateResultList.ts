@@ -1,28 +1,9 @@
-function GenerateTasksFilesResult() {
-  const sheet = ss.getSheetByName(tasksSheetName)
-  if (!sheet) throw new Error('Sheet1 not found')
-
-  const tasksPacksList =
-    TasksUtils.getTasksPacksListFromSheet(sheet)
-
-  const dataRows = DataUtils.parseData(
-    dashboardSheet.sheet.getDataRange().getValues(),
-  )
-  for (const taskPack of tasksPacksList) {
-    const row = dataRows.find((row) => {
-      return (
-        row.city === taskPack.city &&
-        row.weekday === taskPack.weekday &&
-        row.hour === taskPack.hour
-      )
-    })
-    if (!row) continue
-
-    taskPack.setGenerated(Boolean(row.generated))
-    taskPack.setToSplit(Boolean(row.split))
-  }
-
+function GenerateAssignmentSheet() {
+  const tasks = TasksUtils.getAllTasks()
+  const tasksPacksList = TasksUtils.organizeAndUpdate(tasks)
   const resultFiles = getResultTasksFiles(tasksPacksList)
+
+  const outputFolder = DriveUtils.getParentFolder()
   const { city, monday, analysts } = getConfig()
 
   const AssignmentSheet = AssignmentSheetFactory.create(

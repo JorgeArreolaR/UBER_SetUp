@@ -20,4 +20,5 @@ const SheetNames = {
   assignment: 'assignment',
   tasks: 'tasks',
   configuration: 'configuration',
+  main: 'Main Sheet',
 }

@@ -1,14 +1,14 @@
 function getConfig() {
   const configSheet = SheetUtils.getOrCreateSheet(
     ss,
-    SheetNames.configuration,
+    SheetNames.main,
   )
 
-  const monday = configSheet.getRange('F2').getValue()
-  const city = configSheet.getRange('F3').getValue()
+  const monday = configSheet.getRange('C7').getValue()
+  const city = configSheet.getRange('C9').getValue()
 
   const analistsData = DataUtils.parseData(
-    configSheet.getRange('A:C').getValues(),
+    configSheet.getRange('E6:G').getValues(),
   )
   const analysts = analistsData
     .map((row) => {

@@ -1,31 +1,5 @@
 function GenerateSplitSheets() {
-  const sheet = ss.getSheetByName('Sheet1')
-  if (!sheet) throw new Error('Sheet1 not found')
-
-  const tasksPacks =
-    TasksUtils.getTasksPacksListFromSheet(sheet)
-
-  const dashboardSheet = ss.getSheetByName('dashboard')
-  if (!dashboardSheet)
-    throw new Error('dashboard not found')
-
-  const dataRows = DataUtils.parseData(
-    dashboardSheet.getDataRange().getValues(),
-  )
-  for (const taskPack of tasksPacks) {
-    const row = dataRows.find((row) => {
-      return (
-        row.city === taskPack.city &&
-        row.weekday === taskPack.weekday &&
-        row.hour === taskPack.hour
-      )
-    })
-    if (!row) continue
-
-    Logger.log(row)
-    taskPack.setGenerated(Boolean(row.generated))
-    taskPack.setToSplit(Boolean(row.split))
-  }
+  const tasksPacks = TasksUtils.getTasksPacksList()
 
   // Collect necesarry data
   const existingFilesSheetNames = ss

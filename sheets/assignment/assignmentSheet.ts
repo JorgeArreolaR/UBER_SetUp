@@ -24,6 +24,8 @@ const AssignmentSheetFactory = new EnhancedSheetFactory({
 
     model.city = sheet.getRange('A1').getValue()
 
+    if (sheet.getLastRow() < headersCount + 1) return
+
     sheet
       .getRange(
         headersCount + 1,
@@ -67,8 +69,6 @@ const AssignmentSheetFactory = new EnhancedSheetFactory({
         file.setCityPrefix(model.city)
         file.setDone(done)
       })
-
-    Logger.log(model.resultFiles)
   },
   writeModel(model, sheet) {
     const { fixedColumnsCount, headersCount } = model
@@ -253,6 +253,11 @@ const AssignmentSheetFactory = new EnhancedSheetFactory({
         .setRanges([sheet.getRange('A5:1000')])
         .whenFormulaSatisfied('=COUNTIF($D5:$Q5, TRUE)>1')
         .setBackground('#F4CCCC')
+        .build(),
+      SpreadsheetApp.newConditionalFormatRule()
+        .setRanges([sheet.getRange('A5:1000')])
+        .whenFormulaSatisfied('=$S5')
+        .setBackground('#C9DAF8')
         .build(),
       SpreadsheetApp.newConditionalFormatRule()
         .setRanges([sheet.getRange('A5:1000')])

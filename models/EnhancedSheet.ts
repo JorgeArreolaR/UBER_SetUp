@@ -66,10 +66,12 @@ class GoogleEnhancedSheet<
     if (this.postWriteHook) {
       this.postWriteHook(this.sheet)
     }
+    return this
   }
 
   read() {
     this.readModel(this.model, this.sheet)
+    return this
   }
 }
 

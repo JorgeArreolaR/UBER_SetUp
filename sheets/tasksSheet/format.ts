@@ -1,6 +1,4 @@
 function FormatTasksFile(sheet: Sheet) {
-  sheet.autoResizeColumns(1, sheet.getLastColumn())
-
   sheet
     .setColumnWidth(1, 22)
     .setColumnWidth(2, 22)
@@ -19,14 +17,14 @@ function FormatTasksFile(sheet: Sheet) {
     .setFontSize(10)
     .setWrap(true)
 
-  sheet
-    .getRange(
-      1,
-      10,
-      sheet.getLastRow(),
-      sheet.getLastColumn() - 9,
-    )
-    .setVerticalAlignment('middle')
+  // sheet
+  //   .getRange(
+  //     1,
+  //     11,
+  //     sheet.getLastRow(),
+  //     sheet.getLastColumn() - 9,
+  //   )
+  //   .setVerticalAlignment('middle')
 
   // Remove wrap to column (exclude brevious wrap)
   // sheet.getRange(2, 5, sheet.getLastRow() - 1, 1).setWrap(false)

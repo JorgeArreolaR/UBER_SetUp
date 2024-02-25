@@ -4,13 +4,12 @@ function generateTasksFile(resultFile: TasksFile) {
 
 function getResultTasksFiles(taskPacksList: TaskPack[]) {
   const resultFiles: TasksFile[] = []
-  const taskPacksToGenerate = taskPacksList
-  // const taskPacksToGenerate = taskPacksList.filter(
-  //   (File) => File.isGenerated,
-  // )
 
-  for (const tasksPack of taskPacksToGenerate) {
+  for (const tasksPack of taskPacksList) {
     const requiresSplit = tasksPack.isToSplit
+    Logger.log(
+      `File "${tasksPack.getFileName()}" requires split: ${requiresSplit}`,
+    )
 
     if (requiresSplit) {
       const SplitSheet = ss.getSheetByName(
@@ -24,7 +23,8 @@ function getResultTasksFiles(taskPacksList: TaskPack[]) {
       )
       for (const Task of tasksPack.tasks) {
         const row = dataRows.find(
-          (row) => Task.route_id === row.route_id,
+          (row) =>
+            String(Task.route_id) === String(row.route_id),
         )
 
         if (row === undefined) continue
@@ -39,7 +39,11 @@ function getResultTasksFiles(taskPacksList: TaskPack[]) {
       }
     }
 
-    // Logger.log(`File "${tasksPack.getFileName()}" requires ${splits.length} splits: [${splits.join(", ")}]`)
+    const splits = tasksPack.getSplits()
+    Logger.log(
+      `File "${tasksPack.getFileName()}" requires ${splits.length} splits: [${splits.join(', ')}]`,
+    )
+
     for (const split of tasksPack.getSplits()) {
       const resultFile = new TasksFile({
         id: split,

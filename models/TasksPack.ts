@@ -17,7 +17,6 @@ class TaskPack {
   city: string
   weekday: string
   hour: string
-  isGenerated: boolean
   isToSplit: boolean
   task_complete?: string
   task_count?: string
@@ -39,7 +38,6 @@ class TaskPack {
     this.weekday = sampleTask.bub_week
     this.hour = sampleTask.local_hour
 
-    this.isGenerated = props.generated ?? false
     this.isToSplit = false
 
     this.task_complete = props.task_complete
@@ -70,14 +68,13 @@ class TaskPack {
     )
   }
   getSplits() {
-    return DataUtils.unique(
-      this.tasks.map((Task) => Task.splitId),
-    ).filter((x) => !!x)
+    const allSplitsIds = this.tasks.map(
+      (Task) => Task.splitId,
+    )
+    const splitIds = DataUtils.unique(allSplitsIds)
+    return splitIds.filter((x) => !!x)
   }
 
-  setGenerated(value: boolean) {
-    this.isGenerated = value
-  }
   setToSplit(value: boolean) {
     this.isToSplit = value
   }

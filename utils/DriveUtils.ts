@@ -16,7 +16,11 @@ namespace DriveUtils {
     return getSubfolderByName(folder, subfolderName)
   }
 
-  export function getParentFolder(file: DriveFile) {
+  export function getParentFolder(file?: DriveFile) {
+    if (!file) {
+      const currentFile = DriveApp.getFileById(ss.getId())
+      return currentFile.getParents().next()
+    }
     return file.getParents().next()
   }
 

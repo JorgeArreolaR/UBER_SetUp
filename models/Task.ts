@@ -15,7 +15,8 @@ interface ITask {
   tlng: string
   tlat: string
   distance_type: string
-  task_done: string
+  analyst_prefix: string
+  task_done?: boolean
 }
 
 class Task implements ITask {
@@ -35,7 +36,11 @@ class Task implements ITask {
   tlng: string
   tlat: string
   distance_type: string
-  task_done: string
+  task_done: boolean
+  analyst_prefix: string
+  date: Date | null
+  city_prefix: string | null
+
   splitId: number
 
   constructor(props: ITask) {
@@ -55,7 +60,10 @@ class Task implements ITask {
     this.tlng = props.tlng
     this.tlat = props.tlat
     this.distance_type = props.distance_type
-    this.task_done = props.task_done
+    this.analyst_prefix = props.analyst_prefix
+    this.task_done = props.task_done ?? false
+    this.date = null
+    this.city_prefix = null
     this.splitId = 1
   }
 
@@ -94,5 +102,42 @@ class Task implements ITask {
 
   setSplitId(number: number) {
     this.splitId = number
+  }
+
+  setDate(date: Date) {
+    this.date = date
+  }
+
+  setCityPrefix(prefix: string) {
+    this.city_prefix = prefix
+  }
+
+  setAnalystPrefix(prefix: string) {
+    this.analyst_prefix = prefix
+  }
+
+  getDayMonth() {
+    if (this.date === null) return ''
+    const day = this.date.getDate()
+    const printableDay = day < 10 ? '0' + day : day
+
+    const month = this.date.getMonth() + 1
+    const printableMonth = month < 10 ? '0' + month : month
+    return `${printableDay}${printableMonth}`
+  }
+
+  getPhotoBaseName() {
+    const analyst = this.analyst_prefix
+    const dayMonth = this.getDayMonth()
+    const city = this.city_prefix
+    const route = this.route_id
+
+    if (!analyst || !dayMonth || !city || !route) return ''
+
+    return `${analyst}+${dayMonth}+${route}`
+  }
+
+  getPhotoName(number: number) {
+    return `${this.getPhotoBaseName()}+${number}`
   }
 }

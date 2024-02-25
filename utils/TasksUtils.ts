@@ -2,13 +2,7 @@ namespace TasksUtils {
   export function getTasksListFromSheet(
     sheet: Sheet,
   ): Task[] {
-    const rows = sheet.getDataRange().getValues()
-    const tasksData = DataUtils.parseData(rows)
-    const tasks = tasksData.map(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (task: any) => new Task(task),
-    )
-    return tasks
+    return getTasks()
   }
 
   export function organizeTasks(tasks: Task[]): TaskPack[] {
@@ -42,5 +36,41 @@ namespace TasksUtils {
   ): TaskPack[] {
     const tasks = getTasksListFromSheet(sheet)
     return organizeTasks(tasks)
+  }
+
+  export function getAllTasks() {
+    return getTasks()
+  }
+
+  export function getTasksPacksList() {
+    const tasks = getTasks()
+    return organizeAndUpdate(tasks)
+  }
+
+  export function updateTasksPacks(
+    tasksPacksList: TaskPack[],
+  ) {
+    const dataRows = DataUtils.parseData(
+      dashboardSheet.sheet.getDataRange().getValues(),
+    )
+    for (const taskPack of tasksPacksList) {
+      const row = dataRows.find((row) => {
+        return (
+          row.weekday === taskPack.weekday &&
+          String(row.hour) === String(taskPack.hour)
+        )
+      })
+      if (!row) continue
+
+      taskPack.setToSplit(Boolean(row.split))
+    }
+
+    return tasksPacksList
+  }
+
+  export function organizeAndUpdate(tasks: Task[]) {
+    const tasksPacksList = organizeTasks(tasks)
+    updateTasksPacks(tasksPacksList)
+    return tasksPacksList
   }
 }
