@@ -6,7 +6,7 @@ function GenerateTasksFiles() {
   const resultFiles = getResultTasksFiles(tasksPacksList)
 
   const outputFolder = DriveUtils.getParentFolder()
-  const { city, monday } = getConfig()
+  const { city } = getConfig()
 
   const AssignmentSheet = AssignmentSheetFactory.create(
     SheetNames.assignment,
@@ -14,7 +14,6 @@ function GenerateTasksFiles() {
       analysts: [],
       resultFiles: resultFiles,
       city,
-      monday,
     }),
   )
     .getOrCreate()

@@ -26,7 +26,9 @@ function getTasks() {
     })
 
     if (row.local_date)
-      task.setDate(new Date(row.local_date))
+      task.setDate(
+        new Date(row.local_date.replace(/-/g, '/')),
+      )
     if (row.split_id) task.setSplitId(row.split_id)
 
     return task

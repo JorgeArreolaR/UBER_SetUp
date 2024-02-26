@@ -3,7 +3,7 @@ function SyncTasks() {
   const tasks = TasksUtils.getAllTasks()
   const tasksPacksList = TasksUtils.organizeTasks(tasks)
 
-  const { city, monday } = getConfig()
+  const { city } = getConfig()
 
   // Sync with Dashboard
   const dataRows = DataUtils.parseData(
@@ -30,7 +30,6 @@ function SyncTasks() {
       analysts: [],
       resultFiles: resultFiles,
       city,
-      monday,
     }),
   )
     .getOrCreate()

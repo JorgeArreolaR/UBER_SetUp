@@ -3,27 +3,22 @@ function onOpen() {
   ui.createMenu('🚘 DIDI Project Tools')
 
     .addItem(
-      '1. ⚙️ Generate Config Sheet',
-      GenerateConfigSheet.name,
-    )
-
-    .addItem(
-      '2. 📋 Generate Dashboard Sheet',
+      '1. 📋 Generate Dashboard Sheet',
       GenerateDashboardSheet.name,
     )
     .addItem(
-      '3. 🔛 Generate Split Sheets',
+      '2. 🔛 Generate Split Sheets',
       GenerateSplitSheets.name,
     )
     .addItem(
-      '4. 📝 Generate Assignment Sheet',
+      '3. 📝 Generate Assignment Sheet',
       GenerateAssignmentSheet.name,
     )
     .addItem(
-      '5. 📓 Generate Final Tasks Files',
+      '4. 📓 Generate Final Tasks Files',
       GenerateTasksFiles.name,
     )
-    .addItem('6. 🔗 Update Files Links', GetFilesLinks.name)
+    .addItem('5. 🔗 Update Files Links', GetFilesLinks.name)
 
     .addSeparator()
 
@@ -32,10 +27,7 @@ function onOpen() {
       TestSheetFramework.name,
     )
 
-    .addItem(
-      '🔄 Sync Tasks',
-      SyncTasks.name,
-    )
+    .addItem('🔄 Sync Tasks', SyncTasks.name)
 
     .addToUi()
 }

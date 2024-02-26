@@ -4,7 +4,6 @@ function getConfig() {
     SheetNames.main,
   )
 
-  const monday = configSheet.getRange('C7').getValue()
   const city = configSheet.getRange('C9').getValue()
 
   const analistsData = DataUtils.parseData(
@@ -27,7 +26,6 @@ function getConfig() {
     })
 
   return {
-    monday,
     city,
     analysts,
   }

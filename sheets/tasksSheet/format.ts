@@ -9,7 +9,8 @@ function FormatTasksFile(sheet: Sheet) {
     .setColumnWidth(7, 86)
     .setColumnWidth(8, 94)
     .setColumnWidth(9, 77)
-    .setColumnWidth(10, 60)
+    .setColumnWidth(10, 77)
+    .setColumnWidth(11, 80)
 
   sheet
     .getDataRange()
@@ -17,25 +18,13 @@ function FormatTasksFile(sheet: Sheet) {
     .setFontSize(10)
     .setWrap(true)
 
-  // sheet
-  //   .getRange(
-  //     1,
-  //     11,
-  //     sheet.getLastRow(),
-  //     sheet.getLastColumn() - 9,
-  //   )
-  //   .setVerticalAlignment('middle')
-
-  // Remove wrap to column (exclude brevious wrap)
-  // sheet.getRange(2, 5, sheet.getLastRow() - 1, 1).setWrap(false)
-  // sheet.getRange(2, 7, sheet.getLastRow() - 1, 1).setWrap(false)
-
   sheet
     .getRange('A1:1')
     .setFontSize(11)
     .setFontFamily('Calibri')
     .setFontWeight('bold')
     .setHorizontalAlignment('center')
+    .setNumberFormat('@')
 
   sheet.getRange('A1:C1').setFontSize(6)
 
@@ -55,7 +44,7 @@ function FormatTasksFile(sheet: Sheet) {
   conditionalFormatRules.push(
     SpreadsheetApp.newConditionalFormatRule()
       .setRanges([
-        sheet.getRange(2, 1, sheet.getLastRow() - 1, 9),
+        sheet.getRange(2, 1, sheet.getLastRow() - 1, 11),
       ])
       .whenFormulaSatisfied('=$A2')
       .setBackground('#D9EAD3')

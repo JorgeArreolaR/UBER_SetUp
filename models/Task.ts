@@ -126,6 +126,15 @@ class Task implements ITask {
     return `${printableDay}${printableMonth}`
   }
 
+  getDateString() {
+    if (this.date === null) return ''
+    return Utilities.formatDate(
+      this.date,
+      'GMT',
+      'yyyy-MM-dd',
+    )
+  }
+
   getPhotoBaseName() {
     const analyst = this.analyst_prefix
     const dayMonth = this.getDayMonth()

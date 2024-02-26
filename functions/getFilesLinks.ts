@@ -1,25 +1,21 @@
 function GetFilesLinks() {
-  const sheet = ss.getSheetByName(tasksSheetName)
-  if (!sheet) throw new Error('Sheet1 not found')
-
   const tasks = TasksUtils.getAllTasks()
-  const tasksPacksList = TasksUtils.organizeAndUpdate(tasks)
+  const tasksPacksList = TasksUtils.organizeTasks(tasks)
 
   const resultFiles = getResultTasksFiles(tasksPacksList)
 
-  const { city, monday, analysts } = getConfig()
+  const { city, analysts } = getConfig()
 
   const AssignmentSheet = AssignmentSheetFactory.create(
     SheetNames.assignment,
     new AssignmentSheetModel({
       resultFiles,
-      monday,
       city,
       analysts,
     }),
-  ).getOrCreate()
-
-  AssignmentSheet.read()
+  )
+    .getOrCreate()
+    .read()
 
   const ssDriveFile = DriveApp.getFileById(ss.getId())
   const parentFolder =

@@ -59,13 +59,11 @@ class TasksFile {
   }
 
   getDayMonth() {
-    if (this.date === null) return ''
-    const day = this.date.getDate()
-    const printableDay = day < 10 ? '0' + day : day
+    const tasks = this.getTasks()
+    if (tasks.length === 0) return ''
 
-    const month = this.date.getMonth() + 1
-    const printableMonth = month < 10 ? '0' + month : month
-    return `${printableDay}${printableMonth}`
+    const sampleTask = tasks[0]
+    return sampleTask.getDayMonth()
   }
 
   getParentFolder() {
@@ -139,7 +137,7 @@ class TasksFile {
     sheet.getDataRange().clearContent().removeCheckboxes()
 
     const headers =
-      'task_done local_hour local_minute from_address from_lat_lng to_address to_lat_lng time_period bub_week route_id'.split(
+      'task_done local_hour local_minute from_address from_lat_lng to_address to_lat_lng time_period bub_week local_date route_id'.split(
         ' ',
       )
     sheet
@@ -157,6 +155,7 @@ class TasksFile {
         task.get_to_lat_lng(),
         task.get_time_period(),
         task.bub_week,
+        task.getDateString(),
         task.get_route_id(),
       ]
     })
@@ -176,6 +175,8 @@ class TasksFile {
       photoNamesHeaders,
     ])
 
+    sheet.getRange('A1:1').setNumberFormat('@')
+
     sheet
       .getRange(
         2,
@@ -183,7 +184,7 @@ class TasksFile {
         rowsData.length,
         photoNamesHeaders.length,
       )
-      .setFormula(`=$S$1&"+"&$T$1&"+"&$J2&"+"&K$1`)
+      .setFormula(`=$T$1&"+"&$U$1&"+"&$K2&"+"&L$1`)
 
     sheet.setConditionalFormatRules([])
 
@@ -248,7 +249,6 @@ class TasksFile {
     const metadata = [
       analyst.getPrefix(),
       this.getDayMonth(),
-      this.city_prefix,
     ]
 
     const metadataColumnOffset =
@@ -259,6 +259,8 @@ class TasksFile {
     ])
 
     FormatTasksFile(sheet)
+
+    UiUtils.toast(`Generated: \n${this.getName()}`)
   }
 
   isDone() {

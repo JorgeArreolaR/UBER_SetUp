@@ -9,7 +9,7 @@ function setTasks(tasks: Task[]) {
       analyst_prefix: task.analyst_prefix,
       bub_week: task.bub_week,
       city_name: task.city_name,
-      local_date: task.date?.toLocaleDateString() ?? '',
+      local_date: task.getDateString(),
       country_code: task.country_code,
       distance_type: task.distance_type,
       flat: task.flat,

@@ -3,7 +3,7 @@ namespace UiUtils {
     SpreadsheetApp.getActiveSpreadsheet().toast(
       message,
       'Info',
-      3,
+      10,
     )
   }
 }

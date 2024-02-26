@@ -65,7 +65,7 @@ const AssignmentSheetFactory = new EnhancedSheetFactory({
         }
 
         file.setToGenerate(toGenerate)
-        file.setDay(model.monday)
+        // file.setDay(model.monday)
         file.setCityPrefix(model.city)
         file.setDone(done)
       })
@@ -172,6 +172,10 @@ const AssignmentSheetFactory = new EnhancedSheetFactory({
         .getRange(5, 4, resultFiles.length, users.length)
         .insertCheckboxes()
 
+      sheet
+        .getRange(4, 4, 1, users.length)
+        .setFormula(`=COUNTIF(D5:D, TRUE)`)
+
       SheetUtils.writeData(
         sheet,
         headersCount,
@@ -229,7 +233,10 @@ const AssignmentSheetFactory = new EnhancedSheetFactory({
       .getRange('1:4')
       .setVerticalAlignment('bottom')
       .setHorizontalAlignment('center')
-    sheet.getRange('C5:C').setHorizontalAlignment('center')
+    sheet
+      .getRange('C5:C')
+      .setHorizontalAlignment('center')
+      .setNumberFormat('@')
     sheet.getRange('1:2').setBackground('#63d297')
     sheet.getRange('A1').setFontWeight('bold')
     sheet.getRange('4:4').setFontWeight('bold')

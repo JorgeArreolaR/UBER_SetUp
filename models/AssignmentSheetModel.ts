@@ -2,7 +2,6 @@ class AssignmentSheetModel {
   resultFiles: TasksFile[] = []
   city: string
   analysts: Analyst[]
-  monday: Date
 
   fixedColumnsCount: number
   headersCount: number
@@ -13,13 +12,10 @@ class AssignmentSheetModel {
     city: string
     analysts: Analyst[]
     resultFiles: TasksFile[]
-    monday: Date
   }) {
     this.city = props.city
     this.analysts = props.analysts
     this.resultFiles = props.resultFiles
-    this.monday = props.monday
-    this.setMonday(this.monday)
     this.fixedColumnsCount = 3
     this.headersCount = 4
 
@@ -32,17 +28,6 @@ class AssignmentSheetModel {
 
   setAnalysts(users: Analyst[]) {
     this.analysts = users
-  }
-
-  setMonday(monday: Date) {
-    this.monday = monday
-    this.resultFiles.forEach((file) => {
-      const day = new Date(monday)
-      const offset = weekdaysOrder.indexOf(
-        file.getWeekday().toLowerCase(),
-      )
-      file.setDay(day, offset)
-    })
   }
 
   getWeekdays() {
